@@ -462,8 +462,7 @@ function get_file_by_glob($dir_fileName_suffix, $type = 'list')
 
     // 获取所有文件
     if ($type == 'list') {
-        $flag = defined('GLOB_BRACE') ? GLOB_BRACE : 0;
-        $glob = glob($dir_fileName_suffix, $flag);
+        $glob = glob($dir_fileName_suffix, GLOB_BRACE);
 
         if ($glob) {
             foreach ($glob as $v) {
@@ -913,6 +912,7 @@ function checkImg($imageUrl, $type = 1, $dir = 'suspic/')
 		) {
 		    $bad_pic = true;
 		}
+    }
 
     // 移入回收站
     if ($type === 3) {
@@ -1831,10 +1831,6 @@ function chunk($target_name)
     $target_file = APP_ROOT . $config['path'] . 'cache/' . $target_name;
     // 储存分片
     if (!is_dir($temp_dir)) mkdir($temp_dir, 0755, true);
-    // 检查分片参数
-    if (!is_numeric($_REQUEST['chunk']) || !is_numeric($_REQUEST['chunks'])) {
-        die('Invalid input'); // or die('Invalid input');
-    }
     // 移动缓存分片
     move_uploaded_file($_FILES['file']['tmp_name'], $temp_dir . $_REQUEST['chunk']);
     // 合并分片
